@@ -7,15 +7,11 @@ public class Main {
 
 
         InputParser parser = new InputParser();
-        AdjacencyList list = parser.parse("tests/2.in");
+        AdjacencyList list = parser.parseStdInput();
         TimeExpandedNetwork time = new TimeExpandedNetwork(list);
         //System.out.println("done:");
 
         time.list.mergeDupes();
-
-        for (AdjacencyList.Entry entry : time.list.entries) {
-            System.out.println(entry);
-        }
 
         FordFulkerson fulk = new FordFulkerson(time.list);
 

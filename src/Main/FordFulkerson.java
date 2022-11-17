@@ -17,18 +17,35 @@ public class FordFulkerson {
             v = false;
         }
 
-        addResidualEdges();
+        addReverseEdges();
         //System.out.println("Flow: " + mainLoop());
         mainLoop();
     }
 
-    public void addResidualEdges() {
+    public void addReverseEdges() {
         for (int n = 0; n < list.entries.length; n++) {
             AdjacencyList.Entry entry = list.entries[n];
             if (entry != null) {
-                for (AdjacencyList.Entry.EdgeData edge: entry.toEdges) {
+                for (int i = 0; i < entry.toEdges.size(); i++) {
+                    AdjacencyList.Entry.EdgeData edge = entry.toEdges.get(i);
                     if (!edge.residual) {
-                        edge.setReverse(edge.to, n, 0);
+
+
+
+                        AdjacencyList.Entry.EdgeData reverse = new AdjacencyList.Entry.EdgeData(n, 0,0,true,edge.to);
+
+
+                        // Set pointer from each edge "a" to
+                        // its reverse edge "b" and vice versa
+                        edge.setReverse(reverse);
+                        reverse.setReverse(edge);
+
+
+                        if (list.entries[edge.to] == null) {
+                            list.entries[edge.to] = new AdjacencyList.Entry(reverse);
+                        } else {
+                            list.entries[edge.to].toEdges.add(reverse);
+                        }
                     }
                 }
             }
@@ -43,47 +60,8 @@ public class FordFulkerson {
 
 
         int t = list.entries.length-1;
-        /*
-        while (true) {
-            System.out.println("flow:" + flow);
-            while (q.size() > 0) {
-                System.out.println("flow:" + flow);
-                int currentNode = q.remove();
-                if (list.entries[currentNode] != null) {
-                    for (AdjacencyList.Entry.EdgeData edge : list.entries[currentNode].toEdges) {
-
-                        if (predecessors[edge.to] == null && edge.to != 0 && edge.capacity > edge.flow) {
-                            predecessors[edge.to] = edge;
-                            q.add(edge.to);
-                        }
-                        System.out.println("flow:" + flow);
-                    }
-                }
-
-                if (predecessors[t] != null) {
-                    int df = Integer.MAX_VALUE;
-
-                    System.out.println("flow:" + flow);
-                    for (AdjacencyList.Entry.EdgeData edge = predecessors[t]; edge != null; edge = predecessors[edge.from]) {
-                        df = Math.min(df, edge.capacity - edge.flow);
-                    }
-
-                    for (AdjacencyList.Entry.EdgeData edge = predecessors[t]; edge != null; edge = predecessors[edge.from]) {
-                        edge.flow = edge.flow + df;
-                        edge.reverse.flow = edge.reverse.flow - df;
-                    }
-
-                    flow += df;
-                    System.out.println("flow:" + flow);
-                }
-            }
-        }
-
-         */
 
         int maxFlow = 0;
-
-
 
         while (true) {
 

@@ -102,7 +102,7 @@ public class AdjacencyList {
     }
 
 
-    public class Entry {
+    public static class Entry {
         int from;
         ArrayList<EdgeData> toEdges = new ArrayList<>();
 
@@ -120,7 +120,12 @@ public class AdjacencyList {
             this.toEdges.add(new EdgeData(to, length, capacity, residual, from));
         }
 
-        public class EdgeData {
+        public Entry(EdgeData edge) {
+            this.from = edge.from;
+            this.toEdges.add(edge);
+        }
+
+        public static class EdgeData {
             int from;
             int to;
             int length;
@@ -138,8 +143,8 @@ public class AdjacencyList {
                 this.residual = residual;
             }
 
-            public void setReverse(int from, int to, int capacity) {
-                this.reverse = new EdgeData(to,0,capacity,true,from);
+            public void setReverse(EdgeData e) {
+                this.reverse = e;
             }
 
         }
