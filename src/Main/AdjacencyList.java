@@ -11,7 +11,7 @@ public class AdjacencyList {
     public AdjacencyList(int nodes, int t) {
         entries = new Entry[nodes];
         nodesInOgGraph = nodes;
-        this.T = t;
+        this.T = t + 1;
     }
 
 
@@ -120,7 +120,7 @@ public class AdjacencyList {
             this.toEdges.add(new EdgeData(to, length, capacity, residual, from));
         }
 
-        public static class EdgeData {
+        public class EdgeData {
             int from;
             int to;
             int length;

@@ -7,9 +7,9 @@ public class Main {
 
 
         InputParser parser = new InputParser();
-        AdjacencyList list = parser.parse("tests/1.in");
+        AdjacencyList list = parser.parse("tests/2.in");
         TimeExpandedNetwork time = new TimeExpandedNetwork(list);
-        System.out.println("done:");
+        //System.out.println("done:");
 
         time.list.mergeDupes();
 
